@@ -1,0 +1,7 @@
+.venv
+.python-version
+.idea
+.envrc
+.terraform
+infrastructure/terraform/*terraform.tfstate*
+.DS_Store
