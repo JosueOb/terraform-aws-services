@@ -1,0 +1,35 @@
+services:
+  localstack:
+    container_name: localstack
+    image: localstack/localstack
+    env_file:
+      - ../localstack/.env
+    ports:
+      - "4566-4599:4566-4599"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - local_network
+
+  terraform:
+    container_name: terraform
+    image: hashicorp/terraform
+    env_file:
+      - ../terraform/.env
+      - ../localstack/.env
+    volumes:
+      - ../terraform:/local
+    depends_on:
+      localstack:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        terraform -chdir=/local init
+        terraform -chdir=/local apply -auto-approve
+    networks:
+      - local_network
+
+networks:
+  local_network:
+    driver: bridge
