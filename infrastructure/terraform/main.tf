@@ -1,7 +1,12 @@
-variable "localstack_endpoint" {
-  description = "localstack endpoint"
-  type        = string
-  default     = "http://localstack:4566"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 5.37.0"
+    }
+  }
+
+  required_version = ">= v1.7.3"
 }
 
 # Provider configuration https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack
@@ -14,22 +19,6 @@ provider "aws" {
   }
 }
 
-resource "aws_secretsmanager_secret" "system_credentials" {
-  name = "system_credentials"
-}
-
-resource "aws_secretsmanager_secret_version" "system_credentials" {
-  secret_id     = aws_secretsmanager_secret.system_credentials.id
-  secret_string = "this is a test secret"
-}
-
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 5.37.0"
-    }
-  }
-
-  required_version = ">= v1.7.3"
+module "secrets" {
+  source = "./modules/terraform-aws-secretsmanager"
 }
