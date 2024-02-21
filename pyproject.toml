@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = "AWS services (Training purposes)"
+authors = ["JosueOb <josuericardocando@hotmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aioboto3 = "^12.3.0"
+types-aioboto3 = {extras = ["secretsmanager"], version = "^12.3.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
