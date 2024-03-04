@@ -1,0 +1,1 @@
+from ._aws_secrets_manager import AWSSecretManagerClient
